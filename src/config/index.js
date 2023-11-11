@@ -1,4 +1,5 @@
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27018/ecom";
+const MONGODB_URI =
+    process.env.MONGODB_URI || "mongodb://localhost:27018/simple-auth";
 const port = process.env.PORT || 8080;
 const httpStatus = {
     INTERNAL_SERVER_ERROR: {
@@ -7,7 +8,19 @@ const httpStatus = {
     },
     BAD_REQUEST: {
         code: 400,
-        message: "Bad request",
+        message: "Invalid credentials",
+    },
+    CREATED: {
+        code: 201,
+        message: "Created",
+    },
+    NOT_FOUND: {
+        code: 404,
+        message: "Not found",
+    },
+    OK: {
+        code: 200,
+        message: "OK",
     },
 };
 const jwt = {

@@ -1,5 +1,4 @@
 import express from "express";
-import { errorConverter, errorHandler } from "./middleware";
 import config from "./config";
 import { connectDB } from "./database";
 import router from "./routes";
@@ -17,7 +16,9 @@ app.listen(config.port, async () => {
 });
 
 app.use((req, res) => {
-    res.status(404).json({ message: "Not found" });
+    res.status(config.httpStatus.NOT_FOUND.code).json({
+        message: config.httpStatus.NOT_FOUND.message,
+    });
 });
 
 app.use((err, req, res, next) => {
@@ -26,3 +27,5 @@ app.use((err, req, res, next) => {
         message: err.message ?? config.httpStatus.INTERNAL_SERVER_ERROR.message,
     });
 });
+
+export default app;
