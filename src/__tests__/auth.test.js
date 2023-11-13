@@ -1,3 +1,0 @@
-describe("register", () => {
-    // add tests
-});
