@@ -12,7 +12,9 @@ const register = async (req, res) => {
     } catch (error) {
         return res.json({
             status: config.httpStatus.INTERNAL_SERVER_ERROR.code,
-            message: error.message,
+            message:
+                error.message ||
+                config.httpStatus.INTERNAL_SERVER_ERROR.message,
         });
     }
 };
