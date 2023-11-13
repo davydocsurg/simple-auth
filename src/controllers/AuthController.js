@@ -10,7 +10,8 @@ const register = async (req, res) => {
 
         return res.json({ status, user, token });
     } catch (error) {
-        res.status(config.httpStatus.INTERNAL_SERVER_ERROR.code).json({
+        return res.json({
+            status: config.httpStatus.INTERNAL_SERVER_ERROR.code,
             message: error.message,
         });
     }
@@ -21,19 +22,24 @@ const login = async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user)
-            return res
-                .status(config.httpStatus.BAD_REQUEST.code)
-                .json({ message: config.httpStatus.BAD_REQUEST.message });
+            return res.json({
+                status: config.httpStatus.BAD_REQUEST.code,
+                message: config.httpStatus.BAD_REQUEST.message,
+            });
         const isMatch = await user.comparePassword(password);
         if (!isMatch)
-            return res
-                .status(config.httpStatus.BAD_REQUEST.code)
-                .json({ message: config.httpStatus.BAD_REQUEST.message });
+            return res.json({
+                status: config.httpStatus.BAD_REQUEST.code,
+                message: config.httpStatus.BAD_REQUEST.message,
+            });
 
         const token = user.generateAuthToken();
-        res.status(config.httpStatus.OK.code).json({ user, token });
+        const status = config.httpStatus.OK.code;
+
+        return res.json({ status, user, token });
     } catch (error) {
-        res.status(config.httpStatus.INTERNAL_SERVER_ERROR.code).json({
+        return res.json({
+            status: config.httpStatus.INTERNAL_SERVER_ERROR.code,
             message: error.message,
         });
     }
@@ -41,9 +47,13 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.status(config.httpStatus.OK.code).json({ message: "Logout" });
+        return res.json({
+            status: config.httpStatus.OK.code,
+            message: "Logout",
+        });
     } catch (error) {
-        res.status(config.httpStatus.INTERNAL_SERVER_ERROR.code).json({
+        return res.json({
+            status: config.httpStatus.INTERNAL_SERVER_ERROR.code,
             message: error.message,
         });
     }
